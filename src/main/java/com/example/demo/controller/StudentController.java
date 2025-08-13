@@ -18,7 +18,7 @@ import com.example.demo.entity.student;
 import com.example.demo.service.StudentService;
 
 @RestController
-@RequestMapping("api/student")
+@RequestMapping("/students")
 
 public class StudentController {
 	

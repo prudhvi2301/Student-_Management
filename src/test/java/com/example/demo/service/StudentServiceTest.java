@@ -3,8 +3,8 @@ package com.example.demo.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.example.demo.entity.student; 
-import com.example.demo.exception.StudentException; 
+import com.example.demo.entity.student;
+import com.example.demo.exception.StudentException;
 import com.example.demo.repository.StudentRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +30,7 @@ class StudentServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
         sampleStudent = new student();
         sampleStudent.setId(1L);
         sampleStudent.setName("John Doe");
@@ -48,6 +49,7 @@ class StudentServiceTest {
         assertEquals(1, students.size());
         assertEquals("John Doe", students.get(0).getName());
         assertEquals("New York", students.get(0).getLocation());
+
         verify(studentRepository, times(1)).findAll();
     }
 
@@ -60,6 +62,7 @@ class StudentServiceTest {
         assertNotNull(found);
         assertEquals("John Doe", found.getName());
         assertEquals("New York", found.getLocation());
+
         verify(studentRepository, times(1)).findById(1L);
     }
 
@@ -68,6 +71,7 @@ class StudentServiceTest {
         when(studentRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(StudentException.class, () -> studentService.getOneData(1L));
+
         verify(studentRepository, times(1)).findById(1L);
     }
 
@@ -80,6 +84,7 @@ class StudentServiceTest {
         assertNotNull(saved);
         assertEquals("John Doe", saved.getName());
         assertEquals("New York", saved.getLocation());
+
         verify(studentRepository, times(1)).save(sampleStudent);
     }
 
@@ -100,6 +105,7 @@ class StudentServiceTest {
         assertNotNull(updated);
         assertEquals("Jane Doe", updated.getName());
         assertEquals("Los Angeles", updated.getLocation());
+
         verify(studentRepository, times(1)).findById(1L);
         verify(studentRepository, times(1)).save(any(student.class));
     }
@@ -109,6 +115,7 @@ class StudentServiceTest {
         when(studentRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(StudentException.class, () -> studentService.updateData(1L, sampleStudent));
+
         verify(studentRepository, times(1)).findById(1L);
     }
 
@@ -119,7 +126,7 @@ class StudentServiceTest {
         studentService.deleteData(1L);
 
         verify(studentRepository, times(1)).findById(1L);
-        verify(studentRepository, times(1)).deleteById(1L);
+        verify(studentRepository, times(1)).delete(sampleStudent);
     }
 
     @Test
@@ -127,6 +134,7 @@ class StudentServiceTest {
         when(studentRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(StudentException.class, () -> studentService.deleteData(1L));
+
         verify(studentRepository, times(1)).findById(1L);
     }
 }

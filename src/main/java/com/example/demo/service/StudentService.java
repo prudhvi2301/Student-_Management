@@ -23,7 +23,7 @@ public class StudentService {
 		return studentRepository.findAll();
 	}
 	public student getOneData(long id) {
-		return studentRepository.findById(id).orElse(null);
+		return studentRepository.findById(id).orElseThrow(()->new StudentException("Id not found"+id));
 	}
 	
 	public student updateData(long id, student students) {
